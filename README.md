@@ -7,7 +7,7 @@ It contains important code snippets for Data Cleaning, Data preprocessing and Da
 - Data_Selection_rows_columns.pynb => Contains code snippets on how to select rows and columns value using pandas library from a pandas DataFrame
 - Pandas_Visualization.pynb => Contains code snippets on how to use matplot library to plot various graphs
 - Pandas_aggregatingfunction.pynb => Contains code snippets to perform aggregation operation on pandas dataframe such as max,min,count,sum,value_counts
--Principle_Component_Analysis.pynb => Contains code snippets to perform PCA to perform dimensionality reduction.
+- Principle_Component_Analysis.pynb => Contains code snippets to perform PCA to perform dimensionality reduction.
 
 2-Data Wrangling
 - Data_cleaning_1 => Contains code snippets for String Processing || Data Type Conversion || Aggregation
