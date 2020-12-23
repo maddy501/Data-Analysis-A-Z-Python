@@ -1,0 +1,272 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "Panadas_indexing.ipynb",
+      "provenance": [],
+      "collapsed_sections": []
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "9MNdl1w60eRO"
+      },
+      "source": [
+        "# **Dataset Insights || Select Columns and Row values**"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "ld3_WTp81W9W"
+      },
+      "source": [
+        "**Data Insights**"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "TsyTLEpv0Luz"
+      },
+      "source": [
+        "# Print the head of the homelessness data\n",
+        "print(homelessness.head())\n",
+        "\n",
+        "# Print information about homelessness\n",
+        "print(homelessness.info())\n",
+        "\n",
+        "# Print the shape of homelessness\n",
+        "print(homelessness.shape)\n",
+        "\n",
+        "# Print a description of homelessness\n",
+        "print(homelessness.describe())\n",
+        "\n",
+        "# Print the values of homelessness\n",
+        "print(homelessness.values)\n",
+        "\n",
+        "# Print the column index of homelessness\n",
+        "print(homelessness.columns)\n",
+        "\n",
+        "# Print the row index of homelessness\n",
+        "print(homelessness.index)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "tCU9eEvGdK2T"
+      },
+      "source": [
+        "# Look at temperatures\n",
+        "print(temperatures.head())\n",
+        "\n",
+        "# Index temperatures by city\n",
+        "temperatures_ind = temperatures.set_index(\"city\")\n",
+        "\n",
+        "# Look at temperatures_ind\n",
+        "print(temperatures_ind.head())\n",
+        "\n",
+        "# Reset the index, keeping its contents\n",
+        "print(temperatures_ind.reset_index())\n",
+        "\n",
+        "# Reset the index, dropping its contents\n",
+        "print(temperatures_ind.reset_index(drop=True))"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "81TY-l5M1ok2"
+      },
+      "source": [
+        "**Select Columns and Row values**"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "nrQDu1N7hT5U"
+      },
+      "source": [
+        "# Make a list of cities to subset on\n",
+        "cities=[\"Moscow\",\"Saint Petersburg\"]\n",
+        "\n",
+        "\n",
+        "# Subset temperatures using square brackets\n",
+        "print(temperatures[temperatures[\"city\"].isin(cities)])\n",
+        "\n",
+        "# Subset temperatures_ind using .loc[]\n",
+        "print(temperatures_ind.loc[cities])"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "h008UUlChzYa"
+      },
+      "source": [
+        "# Index temperatures by country & city\n",
+        "temperatures_ind = temperatures.set_index([\"country\",\"city\"])\n",
+        "\n",
+        "# List of tuples: Brazil, Rio De Janeiro & Pakistan, Lahore\n",
+        "rows_to_keep = [(\"Brazil\",\"Rio De Janeiro\"),(\"Pakistan\",\"Lahore\")]\n",
+        "\n",
+        "# Subset for rows to keep\n",
+        "print(temperatures_ind.loc[rows_to_keep])"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "rGoxt74viwq0"
+      },
+      "source": [
+        "# Sort temperatures_ind by index values\n",
+        "print(temperatures_ind.sort_index())\n",
+        "\n",
+        "# Sort temperatures_ind by index values at the city level\n",
+        "print(temperatures_ind.sort_index(level=\"city\",ascending=True))\n",
+        "\n",
+        "# Sort temperatures_ind by country then descending city\n",
+        "print(temperatures_ind.sort_index(level=[\"country\",\"city\"],ascending=[\"True\",False]))"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "WGlAfhdblgAw"
+      },
+      "source": [
+        "# Sort the index of temperatures_ind\n",
+        "temperatures_srt = temperatures_ind.sort_index()\n",
+        "\n",
+        "# Subset rows from Pakistan to Russia\n",
+        "print(temperatures_srt.loc[\"Pakistan\":\"Russia\"])\n",
+        "\n",
+        "# Try to subset rows from Lahore to Moscow\n",
+        "print(temperatures_srt.loc[\"Lahore\":\"Moscow\"])\n",
+        "\n",
+        "# Subset rows from Pakistan, Lahore to Russia, Moscow\n",
+        "print(temperatures_srt.loc[(\"Pakistan\",\"Lahore\"):(\"Russia\",\"Moscow\")])"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "4kRgl6Vim561"
+      },
+      "source": [
+        "# Subset rows from India, Hyderabad to Iraq, Baghdad\n",
+        "print(temperatures_srt.loc[(\"India\",\"Hyderabad\"):(\"Iraq\",\"Baghdad\")])\n",
+        "\n",
+        "# Subset columns from date to avg_temp_c\n",
+        "print(temperatures_srt.loc[:,\"date\":\"avg_temp_c\"])\n",
+        "\n",
+        "# Subset in both directions at once\n",
+        "print(temperatures_srt.loc[(\"India\",\"Hyderabad\"):(\"Iraq\",\"Baghdad\"),\"date\":\"avg_temp_c\"])"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "UIC97GVIpOAC"
+      },
+      "source": [
+        "# Use Boolean conditions to subset temperatures for rows in 2010 and 2011\n",
+        "temperatures_bool = temperatures[(temperatures[\"date\"] >= \"2010-01-01\") & (temperatures[\"date\"] <= \"2011-12-31\")]\n",
+        "print(temperatures_bool)\n",
+        "\n",
+        "# Set date as an index\n",
+        "temperatures_ind = temperatures.set_index(\"date\")\n",
+        "\n",
+        "# Use .loc[] to subset temperatures_ind for rows in 2010 and 2011\n",
+        "print(temperatures_ind.loc[\"2010\":\"2011\"])\n",
+        "\n",
+        "# Use .loc[] to subset temperatures_ind for rows from Aug 2010 to Feb 2011\n",
+        "print(temperatures_ind.loc[\"2010-08\":\"2011-02\"])"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "XkiyEY9rq2LW"
+      },
+      "source": [
+        "# Get 23rd row, 2nd column (index 22, 1)\n",
+        "print(temperatures.iloc[22,1])\n",
+        "\n",
+        "# Use slicing to get the first 5 rows\n",
+        "print(temperatures.iloc[:6])\n",
+        "\n",
+        "# Use slicing to get columns 3 to 4\n",
+        "print(temperatures.iloc[:,2:4])\n",
+        "\n",
+        "# Use slicing in both directions at once\n",
+        "print(temperatures.iloc[:6,2:4])"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "enlYWaiYuifX"
+      },
+      "source": [
+        "import datetime\n",
+        "# Add a year column to temperatures\n",
+        "temperatures[\"year\"]=pd.DatetimeIndex(temperatures[\"date\"]).year\n",
+        "\n",
+        "# Pivot avg_temp_c by country and city vs year\n",
+        "temp_by_country_city_vs_year =temperatures.pivot_table(\"avg_temp_c\",index=[\"country\",\"city\"],columns=\"year\")\n",
+        "\n",
+        "# See the result\n",
+        "print(temp_by_country_city_vs_year)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "YnqpjMjbxSez"
+      },
+      "source": [
+        "# Subset for Egypt to India\n",
+        "temp_by_country_city_vs_year.loc[\"Egypt\":\"India\"]\n",
+        "\n",
+        "# Subset for Egypt, Cairo to India, Delhi\n",
+        "temp_by_country_city_vs_year.loc[(\"Egypt\",\"Cairo\"):(\"India\",\"Delhi\")]\n",
+        "\n",
+        "# Subset in both directions at once\n",
+        "temp_by_country_city_vs_year.loc[(\"Egypt\",\"Cairo\"):(\"India\",\"Delhi\"),\"2005\":\"2010\"]"
+      ],
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
